@@ -26,7 +26,9 @@ class _CurvePainter extends CustomPainter {
 
 class CurveWidget extends StatelessWidget {
   final List<Widget> children;
-  const CurveWidget({this.children = const <Widget>[], Key? key})
+  final String title;
+  const CurveWidget(
+      {this.children = const <Widget>[], this.title = 'Lider', Key? key})
       : super(key: key);
 
   @override
@@ -37,8 +39,19 @@ class CurveWidget extends StatelessWidget {
         padding: const EdgeInsets.all(40.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: children,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Greve',
+              ),
+              Expanded(
+                child: Container(),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: children,
+              ),
+            ],
           ),
         ),
       ),
