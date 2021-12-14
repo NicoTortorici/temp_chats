@@ -41,8 +41,16 @@ class CurveWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Greve',
+              Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 50,
+                    color: Colors.white,
+                  ),
+                ),
               ),
               Expanded(
                 child: Container(),

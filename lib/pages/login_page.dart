@@ -27,10 +27,11 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             onPressed: () {},
             child: Text(
-              'Log In',
+              'Join Now',
               style: TextStyle(fontSize: 20),
             ),
             style: ButtonStyle(
+              elevation: MaterialStateProperty.all(10),
               backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).accentColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
