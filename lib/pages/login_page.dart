@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp_chats/widgets/curve_painter.dart';
+import 'package:temp_chats/widgets/main_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,28 +25,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SizedBox(height: 25),
-          ElevatedButton(
+          MainButton(
+            text: 'Join Now',
             onPressed: () {},
-            child: Text(
-              'Join Now',
-              style: TextStyle(fontSize: 20),
-            ),
-            style: ButtonStyle(
-              elevation: MaterialStateProperty.all(10),
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).accentColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-              ),
-              padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
-                (Set<MaterialState> states) {
-                  return EdgeInsets.symmetric(vertical: 20, horizontal: 50);
-                },
-              ),
-            ),
-          ),
+          )
         ],
       ),
     );
