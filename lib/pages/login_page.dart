@@ -39,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               setName(controller.text);
               Navigator.of(context).pushNamed('/chats');
-              print('greve');
             },
           )
         ],
