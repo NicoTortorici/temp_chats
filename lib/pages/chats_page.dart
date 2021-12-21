@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:temp_chats/widgets/chat_tile.dart';
+import 'package:temp_chats/widgets/curve_painter.dart';
 
 class ChatsPage extends StatefulWidget {
   final String name;
@@ -15,9 +17,40 @@ class _ChatsState extends State<ChatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Text(name),
+      body: CurveWidget(
+        children: [
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+                ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+              ],
+            ),
+          ),
+        ],
       ),
+      // body: CurveWidget(
+      //   title: 'Chats',
+      //   children: [
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //     ChatTile(name: 'Lider', messageText: 'Sono il lider'),
+      //   ],
+      // ),
     );
   }
 }
