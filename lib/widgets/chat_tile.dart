@@ -57,14 +57,6 @@ class ChatTile extends StatelessWidget {
                 ],
               ),
             ),
-            // Text(
-            //   widget.time,
-            //   style: TextStyle(
-            //       fontSize: 12,
-            //       fontWeight: widget.isMessageRead
-            //           ? FontWeight.bold
-            //           : FontWeight.normal),
-            // ),
           ],
         ),
       ),
