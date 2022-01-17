@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:temp_chats/pages/chats_page.dart';
 import 'package:temp_chats/pages/login_page.dart';
+import 'package:temp_chats/pages/messages_page.dart';
 
 void main() {
   runApp(ChatApp());
@@ -32,7 +33,8 @@ class _ChatAppState extends State<ChatApp> {
         '/login': (ctx) => LoginPage(
               setName: _setName,
             ),
-        '/chats': (ctx) => ChatsPage(name: _name)
+        '/chats': (ctx) => ChatsPage(name: _name),
+        '/chat': (ctx) => MessagesPage()
       },
       title: 'Flutter Demo',
       theme: ThemeData(

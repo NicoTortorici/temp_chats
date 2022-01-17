@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temp_chats/classes/ChatArguments.dart';
 
 class ChatTile extends StatelessWidget {
   final String name;
@@ -12,7 +13,9 @@ class ChatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, '/chat', arguments: ChatArgs(this.name));
+      },
       child: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Row(
