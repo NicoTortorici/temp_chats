@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:temp_chats/widgets/chat_tile.dart';
-import 'package:temp_chats/widgets/curve_painter.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatsPage extends StatefulWidget {
   final String name;
@@ -13,8 +14,24 @@ class ChatsPage extends StatefulWidget {
 
 class _ChatsState extends State<ChatsPage> {
   final String name;
+  late Socket socket;
 
   _ChatsState({required this.name});
+
+  @override
+  void initState() {
+    super.initState();
+
+    socket = io("http://127.0.0.1:6969/", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.on('connect', (data) {
+      print(socket.connected);
+    });
+
+    socket.connect();
+  }
 
   @override
   Widget build(BuildContext context) {
