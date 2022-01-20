@@ -1,8 +1,9 @@
 import 'dart:collection';
 
+import 'package:scoped_model/scoped_model.dart';
 import 'package:temp_chats/classes/ChatMessage.dart';
 
-class MessageListContainer {
+class MessageListContainer extends Model {
   final String username;
   final List<ChatMessage> _messages = [];
 
@@ -23,6 +24,7 @@ class MessageListContainer {
 
   void addMessage(ChatMessage message) {
     _messages.add(message);
+    notifyListeners();
   }
 
 }
