@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:temp_chats/classes/ChatModel.dart';
+import 'package:temp_chats/pages/add_chat_page.dart';
 import 'package:temp_chats/pages/messages_page.dart';
 import 'package:temp_chats/widgets/chat_tile.dart';
 
@@ -96,29 +97,19 @@ class _ChatsState extends State<ChatsPage> {
                                     model.messageContainers[index],
                                     model.messageContainers[index].username),
                               ),
-                            ));
+                            ),
+                    );
                   },
                 );
               }),
             ),
-
-            /*ListView.builder(
-              itemCount: messageContainers.length,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 16),
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return ChatTile(
-                  name: messageContainers[index].username,
-                  messageText: messageContainers[index].latestMessage,
-                  action: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MessagesPage(messageContainers[index])),
-                  ),
-                );
-              },
-            ),*/
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddChatPage(chatModel))),
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(Icons.add),
       ),
     );
   }

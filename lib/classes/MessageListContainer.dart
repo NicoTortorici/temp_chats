@@ -19,6 +19,7 @@ class MessageListContainer extends Model {
   }
 
   String get latestMessage {
+    if (_messages.isEmpty) return '';
     return _messages.last.content;
   }
 
