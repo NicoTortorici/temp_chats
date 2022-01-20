@@ -4,17 +4,19 @@ import 'package:temp_chats/classes/ChatArguments.dart';
 class ChatTile extends StatelessWidget {
   final String name;
   final String messageText;
+  final VoidCallback action;
   //String imageUrl;
   //String time;
   //bool isMessageRead;
 
-  ChatTile({required this.name, required this.messageText});
+  ChatTile({required this.name, required this.messageText, required this.action});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/chat', arguments: ChatArgs(this.name));
+        action();
+        //Navigator.pushNamed(context, '/chat', arguments: ChatArgs(this.name));
       },
       child: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),

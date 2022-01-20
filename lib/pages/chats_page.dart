@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:temp_chats/classes/ChatMessage.dart';
+import 'package:temp_chats/classes/MessageListContainer.dart';
+import 'package:temp_chats/pages/messages_page.dart';
 import 'package:temp_chats/widgets/chat_tile.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatsPage extends StatefulWidget {
   final String name;
@@ -15,22 +19,59 @@ class ChatsPage extends StatefulWidget {
 class _ChatsState extends State<ChatsPage> {
   final String name;
   late Socket socket;
+  final List<MessageListContainer> messageContainers = [];
 
   _ChatsState({required this.name});
 
+  void sendMessage(String receiverName, String content) {
+    socket.emit('message', {"receiver": name, "content": content });
+  }
+
   @override
   void initState() {
-    super.initState();
 
-    socket = io("http://127.0.0.1:6969/", <String, dynamic>{
+    socket = io("http://temp-chats.herokuapp.com/", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
-    socket.on('connect', (data) {
-      print(socket.connected);
+
+    socket.onConnectError((data) => print(data));
+    socket.onConnect((data) {
+        print('connected');
+
+        socket.emit('login', name);
+        Timer.periodic(Duration(seconds: 2), (Timer t) => sendMessage(name, 'greve zi ${t.tick}'));
+    });
+    socket.connect();
+
+
+    // Ricevuto un messaggio
+    socket.on('message', (args) {
+      print(args);
+      setState(() {
+        String sender = args['sender'];
+        String content = args['content'];
+
+        var containers =
+            messageContainers.where((element) => element.username == sender);
+        MessageListContainer? container =
+            containers.isEmpty ? null : containers.first;
+
+        var message = ChatMessage(
+            content: content, received: true, sender: sender, receiver: name);
+        if (container == null) {
+          container = MessageListContainer(sender, firstMessage: message);
+          messageContainers.add(container);
+        } else {
+          container.addMessage(message);
+        }
+
+
+      });
     });
 
-    socket.connect();
+
+    super.initState();
   }
 
   @override
@@ -83,14 +124,17 @@ class _ChatsState extends State<ChatsPage> {
               ),
             ),
             ListView.builder(
-              itemCount: 10,
+              itemCount: messageContainers.length,
               shrinkWrap: true,
               padding: EdgeInsets.only(top: 16),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ChatTile(
-                  name: "Lider",
-                  messageText: "Sono il lider",
+                  name: messageContainers[index].username,
+                  messageText: messageContainers[index].latestMessage,
+                  action: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MessagesPage(messageContainers[index])),
+                  ),
                 );
               },
             ),

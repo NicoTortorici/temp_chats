@@ -34,7 +34,7 @@ class _ChatAppState extends State<ChatApp> {
               setName: _setName,
             ),
         '/chats': (ctx) => ChatsPage(name: _name),
-        '/chat': (ctx) => MessagesPage()
+        //'/chat': (ctx) => MessagesPage()
       },
       title: 'Flutter Demo',
       theme: ThemeData(
