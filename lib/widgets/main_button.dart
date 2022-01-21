@@ -10,13 +10,17 @@ class MainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+
       onPressed: onPressed,
       child: Text(
         text,
         style: TextStyle(fontSize: 20),
       ),
+
+
       style: ButtonStyle(
         //elevation: MaterialStateProperty.all(10),
+
         backgroundColor:
             MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

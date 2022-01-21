@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
-class ChatBottomBar extends StatelessWidget {
-  const ChatBottomBar({Key? key}) : super(key: key);
+class ChatBottomBar extends StatefulWidget {
+  final void Function(String) onSendMessage;
+
+  const ChatBottomBar({required this.onSendMessage, Key? key}) : super(key: key);
+
+  @override
+  State<ChatBottomBar> createState() => _ChatBottomBarState();
+}
+
+class _ChatBottomBarState extends State<ChatBottomBar> {
+  final TextEditingController controller = new TextEditingController();
+
+  void sendMessage() {
+    if (controller.text != '')
+      widget.onSendMessage(controller.text);
+    controller.text = '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,38 +27,24 @@ class ChatBottomBar extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                color: Colors.lightBlue,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
-          ),
           SizedBox(
             width: 15,
           ),
           Expanded(
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                   hintText: "Message...",
                   hintStyle: TextStyle(color: Colors.black54),
                   border: InputBorder.none),
+              onSubmitted: (text) => sendMessage()
             ),
           ),
           SizedBox(
             width: 15,
           ),
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: sendMessage,
             child: Icon(
               Icons.send,
               color: Colors.white,

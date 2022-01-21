@@ -19,6 +19,9 @@ class _AddChatPageState extends State<AddChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Start New Chat"),
+      ),
       body: Column(
         children: [
           ListTile(
@@ -37,7 +40,7 @@ class _AddChatPageState extends State<AddChatPage> {
 
           MessageListContainer container;
           if (found.isEmpty) {
-            container = MessageListContainer(controller.text);
+            container = MessageListContainer(controller.text, widget.model);
             widget.model.messageContainers.add(container);
           } else {
             container = found.first;

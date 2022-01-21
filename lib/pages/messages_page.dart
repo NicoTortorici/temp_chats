@@ -8,7 +8,10 @@ import 'package:temp_chats/widgets/chat_message_tile.dart';
 class MessagesPage extends StatelessWidget {
   final MessageListContainer model;
   final String username;
-  const MessagesPage(this.model, this.username) : super();
+  
+  final ScrollController controller = new ScrollController();
+
+  MessagesPage(this.model, this.username) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -20,71 +23,35 @@ class MessagesPage extends StatelessWidget {
         children: <Widget>[
           ScopedModel<MessageListContainer>(
             model: model,
-            child: ScopedModelDescendant<MessageListContainer>(builder: (context, widget, model) =>
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: model.messages.length,
-                    //shrinkWrap: true,
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => ChatMessageTile(
-                      ChatMessage(content: model.messages[index].content, received: model.messages[index].received),
-                    ),
-                  ),
-                )
+            child: ScopedModelDescendant<MessageListContainer>(builder: (context, widget, model) {
+              WidgetsBinding.instance!.addPostFrameCallback((_) => controller.animateTo(controller.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.easeOut));
+
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: model.messages.length,
+                  controller: controller,
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  physics: AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (context, index) =>
+                      ChatMessageTile(
+                        ChatMessage(content: model.messages[index].content,
+                            received: model.messages[index].received),
+                      ),
+                ),
+              );
+            }
             )),
 
           Align(
             alignment: Alignment.bottomLeft,
-            child: ChatBottomBar(),
+            child: ChatBottomBar(onSendMessage: (msg) {
+              model.sendMessage(msg);
+              //controller.animateTo(controller.position.maxScrollExtent + 150, duration: const Duration(milliseconds: 500), curve: Curves.easeOut)
+              /*.then((value) => controller.animateTo(controller.position.maxScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.easeOut));*/
+            }),
           ),
         ],
       ),
     );
   }
 }
-
-
-/*
-class MessagesPage extends StatefulWidget {
-  final MessageListContainer container;
-  const MessagesPage(this.container) : super();
-
-  @override
-  _MessagesPageState createState() => _MessagesPageState();
-}
-
-class _MessagesPageState extends State<MessagesPage> {
-  //List<ChatMessage> messages = [];
-
-  @override
-  Widget build(BuildContext context) {
-    //final args = ModalRoute.of(context)!.settings.arguments as ChatArgs;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat with ${widget.container.username}'),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.container.messages.length,
-              //shrinkWrap: true,
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              physics: AlwaysScrollableScrollPhysics(),
-              itemBuilder: (context, index) => ChatMessageTile(
-                ChatMessage(content: widget.container.messages[index].content, received: true),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: ChatBottomBar(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/

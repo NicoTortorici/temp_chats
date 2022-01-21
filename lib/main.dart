@@ -16,6 +16,7 @@ class ChatApp extends StatefulWidget {
 
 class _ChatAppState extends State<ChatApp> {
   String _name = '';
+  //late ChatModel _model;
 
   void _setName(String name) {
     setState(() {
