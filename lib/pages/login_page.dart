@@ -46,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 if (msg == null)
                     Navigator.of(context).pushNamed('/chats', arguments: model);
                 else
+                  // Displays message in case of error.
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red,));
               });
 

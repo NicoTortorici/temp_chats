@@ -8,8 +8,6 @@ import 'package:temp_chats/widgets/chat_tile.dart';
 class ChatsPage extends StatefulWidget {
   final String name;
 
-  //final ChatModel chatModel;
-
   const ChatsPage({Key? key, required this.name}) : super(key: key);
 
   @override
@@ -28,96 +26,60 @@ class _ChatsState extends State<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    chatModel = ModalRoute.of(context)!.settings.arguments
-        as ChatModel; //ChatModel(name);
+    // chatModel is passed as argument of the route.
+    chatModel = ModalRoute.of(context)!.settings.arguments as ChatModel;
+
+    // Used to check if the chat is being closed. If it is, disconnect the socket.
     return WillPopScope(
-        onWillPop: () async {
-          print(' popping chat screen');
-          chatModel.socket.disconnect();
-          return true;
-        },
-        child: Scaffold(
-          body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Conversations",
-                          style: TextStyle(
-                              fontSize: 32, fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 8, right: 8, top: 2, bottom: 2),
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.pink[50],
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.add,
-                                color: Colors.pink,
-                                size: 20,
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                "Add New",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                ScopedModel<ChatModel>(
-                  model: chatModel,
-                  child: ScopedModelDescendant<ChatModel>(
-                      builder: (context, widget, model) {
-                    return ListView.builder(
-                      itemCount: model.messageContainers.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 16),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ChatTile(
-                          name: model.messageContainers[index].username,
-                          messageText:
-                              model.messageContainers[index].latestMessage,
-                          action: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => MessagesPage(
-                                  model.messageContainers[index],
-                                  model.messageContainers[index].username),
+      onWillPop: () async {
+        chatModel.socket.disconnect();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text("Your Chats, ${chatModel.name}")),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Used to listen for changes on the ChatModel.
+              ScopedModel<ChatModel>(
+                model: chatModel,
+                child: ScopedModelDescendant<ChatModel>(
+                    builder: (context, widget, model) {
+                  return ListView.builder(
+                    itemCount: model.messageContainers.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(top: 16),
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return ChatTile(
+                        name: model.messageContainers[index].username,
+                        messageText:
+                            model.messageContainers[index].latestMessage,
+                        action: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MessagesPage(
+                                model.messageContainers[index],
+                                model.messageContainers[index].username
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }),
-                ),
-              ],
-            ),
+                        ),
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AddChatPage(chatModel))),
-            backgroundColor: Theme.of(context).primaryColor,
-            child: const Icon(Icons.add),
-          ),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AddChatPage(chatModel))),
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(Icons.add),
+        ),
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Used to create the curved background in the login page.
 class _CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -28,7 +29,7 @@ class CurveWidget extends StatelessWidget {
   final List<Widget> children;
   final String title;
   const CurveWidget(
-      {this.children = const <Widget>[], this.title = 'Lider', Key? key})
+      {this.children = const <Widget>[], this.title = 'TempChats', Key? key})
       : super(key: key);
 
   @override

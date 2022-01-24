@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:temp_chats/classes/ChatModel.dart';
 import 'package:temp_chats/classes/MessageListContainer.dart';
@@ -36,15 +35,16 @@ class _AddChatPageState extends State<AddChatPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.send),
         onPressed: () {
+          // Search for the conversation.
           var found = widget.model.messageContainers.where((element) => element.username == controller.text);
 
+          // Adds an empty conversation.
           MessageListContainer container;
           if (found.isEmpty) {
             container = MessageListContainer(controller.text, widget.model);
             widget.model.messageContainers.add(container);
-          } else {
+          } else
             container = found.first;
-          }
 
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MessagesPage(container, container.username)));
         },

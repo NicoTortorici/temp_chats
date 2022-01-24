@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:temp_chats/pages/chats_page.dart';
 import 'package:temp_chats/pages/login_page.dart';
-import 'package:temp_chats/pages/messages_page.dart';
 
 void main() {
   runApp(ChatApp());
@@ -16,7 +15,6 @@ class ChatApp extends StatefulWidget {
 
 class _ChatAppState extends State<ChatApp> {
   String _name = '';
-  //late ChatModel _model;
 
   void _setName(String name) {
     setState(() {

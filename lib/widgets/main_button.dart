@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Represents a single button that can be re-used.
 class MainButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -19,7 +20,6 @@ class MainButton extends StatelessWidget {
 
 
       style: ButtonStyle(
-        //elevation: MaterialStateProperty.all(10),
 
         backgroundColor:
             MaterialStateProperty.all<Color>(Theme.of(context).accentColor),

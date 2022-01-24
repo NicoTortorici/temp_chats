@@ -8,7 +8,7 @@ import 'package:temp_chats/widgets/chat_message_tile.dart';
 class MessagesPage extends StatelessWidget {
   final MessageListContainer model;
   final String username;
-  
+
   final ScrollController controller = new ScrollController();
 
   MessagesPage(this.model, this.username) : super();
@@ -22,32 +22,37 @@ class MessagesPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           ScopedModel<MessageListContainer>(
+            // The model is passed through constructor.
             model: model,
-            child: ScopedModelDescendant<MessageListContainer>(builder: (context, widget, model) {
-              WidgetsBinding.instance!.addPostFrameCallback((_) => controller.animateTo(controller.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.easeOut));
+            child: ScopedModelDescendant<MessageListContainer>(
+              // This is the function that will be used to rebuild the components.
+              builder: (context, widget, model) {
+                // This is used to scroll to the latest message when this is rebuilt.
+                WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                    controller.animateTo(controller.position.maxScrollExtent,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeOut));
 
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: model.messages.length,
-                  controller: controller,
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      ChatMessageTile(
-                        ChatMessage(content: model.messages[index].content,
-                            received: model.messages[index].received),
-                      ),
-                ),
-              );
-            }
-            )),
-
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: model.messages.length,
+                    controller: controller,
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => ChatMessageTile(
+                      ChatMessage(
+                          content: model.messages[index].content,
+                          received: model.messages[index].received),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           Align(
             alignment: Alignment.bottomLeft,
             child: ChatBottomBar(onSendMessage: (msg) {
               model.sendMessage(msg);
-              //controller.animateTo(controller.position.maxScrollExtent + 150, duration: const Duration(milliseconds: 500), curve: Curves.easeOut)
-              /*.then((value) => controller.animateTo(controller.position.maxScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.easeOut));*/
             }),
           ),
         ],

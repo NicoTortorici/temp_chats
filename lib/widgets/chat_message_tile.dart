@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:temp_chats/classes/ChatMessage.dart';
 
+/// Represents the graphic representation of a message.
 class ChatMessageTile extends StatelessWidget {
-  ChatMessage message;
+  final ChatMessage message;
 
   ChatMessageTile(this.message, {Key? key}) : super(key: key);
 

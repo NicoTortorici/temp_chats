@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:temp_chats/classes/ChatArguments.dart';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+/// Represents a conversation with a user.
 class ChatTile extends StatelessWidget {
   final String name;
   final String messageText;
   final VoidCallback action;
-  //String imageUrl;
-  //String time;
-  //bool isMessageRead;
 
   ChatTile({required this.name, required this.messageText, required this.action});
 
@@ -16,7 +15,6 @@ class ChatTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         action();
-        //Navigator.pushNamed(context, '/chat', arguments: ChatArgs(this.name));
       },
       child: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
@@ -26,8 +24,9 @@ class ChatTile extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    //backgroundImage: NetworkImage(widget.imageUrl),
                     maxRadius: 30,
+                    // Random colour is assigned each time.
+                    backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                   ),
                   SizedBox(
                     width: 16,
@@ -50,9 +49,6 @@ class ChatTile extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey.shade600,
-                              // fontWeight: this.isMessageRead
-                              //     ? FontWeight.bold
-                              //     : FontWeight.normal
                             ),
                           ),
                         ],
